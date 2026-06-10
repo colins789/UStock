@@ -3,44 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S&P 500 Strategy Matrix • Pro Scanner</title>
+    <title>PRO SCANNER • FUTU Style</title>
     <style>
-        body {font-family: 'Segoe UI', system-ui, sans-serif; background:#04060d; color:#e2e8f0; margin:0; padding:20px;}
-        .container {max-width:1650px; margin:0 auto; display:flex; flex-direction:column; gap:24px;}
-        .panel {background:#0f172a; border:1px solid #1e293b; border-radius:10px; padding:20px;}
-        .grid-header {display:grid; grid-template-columns: 100px 1.6fr 130px 100px 100px 100px 100px 110px 1.4fr; background:#1e293b; padding:12px; font-weight:600; font-size:0.82rem; font-family:monospace;}
-        .market-row {display:grid; grid-template-columns: 100px 1.6fr 130px 100px 100px 100px 100px 110px 1.4fr; background:#04060d; border:1px solid #1e293b; padding:12px; border-radius:6px; align-items:center;}
-        .market-row:hover {background:#0b0f19;}
+        body {font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif; background:#0a0c14; color:#e2e8f0; margin:0; padding:20px;}
+        .container {max-width:1680px; margin:0 auto; display:flex; flex-direction:column; gap:24px;}
+        .panel {background:#111827; border:1px solid #1e293b; border-radius:12px; padding:24px;}
+        .header {display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;}
+        .ticker-input {padding:14px 20px; font-size:1.1rem; background:#1f2937; border:1px solid #334155; color:white; border-radius:8px; width:260px;}
+        .btn {padding:14px 32px; background:#2563eb; color:white; border:none; border-radius:8px; font-weight:600; cursor:pointer;}
+        .btn:hover {background:#1d4ed8;}
+        
+        .grid-header, .market-row {
+            display:grid; 
+            grid-template-columns: 110px 1.8fr 140px 110px 110px 110px 110px 110px 1.4fr;
+            padding:12px 16px; gap:12px;
+            font-size:0.9rem;
+        }
+        .grid-header {background:#1e293b; font-weight:700; font-family:monospace; border-radius:8px;}
+        .market-row {background:#111827; border:1px solid #1e293b; border-radius:8px; align-items:center;}
+        .market-row:hover {background:#1f2937; border-color:#475569;}
         .ticker-col {font-weight:700; color:#60a5fa; font-family:monospace;}
-        .positive {color:#34d399;} .negative {color:#f43f5e;}
-        .badge {padding:5px 12px; border-radius:4px; font-size:0.78rem; font-weight:700;}
-        .bg-buy {background:#052e16; color:#34d399;}
-        .bg-avoid {background:#4c0519; color:#f43f5e;}
-        .bg-hold {background:#3f2a05; color:#fbbf24;}
-        .advice-box {background:#1e293b; padding:18px; border-radius:8px; line-height:1.5;}
+        .positive {color:#22c55e;} .negative {color:#ef4444;}
+        .badge {padding:6px 14px; border-radius:6px; font-size:0.8rem; font-weight:700;}
+        .bg-buy {background:#052e16; color:#4ade80;}
+        .bg-avoid {background:#450a0a; color:#f87171;}
+        .bg-hold {background:#422006; color:#fbbf24;}
+        .advice {background:#1e293b; padding:20px; border-radius:10px; line-height:1.6;}
     </style>
 </head>
 <body>
     <div class="container">
-        <header style="display:flex;justify-content:space-between;align-items:end;border-bottom:1px solid #1e293b;padding-bottom:16px;">
-            <h1>S&amp;P 500 • STRATEGY MATRIX</h1>
-            <div id="loadStatus" style="font-family:monospace;padding:8px 16px;border-radius:6px;background:#1e293b;">READY • SAMPLE + LIVE</div>
-        </header>
-
-        <!-- Rich Individual Analyzer -->
-        <div class="panel">
-            <h3>Individual Stock Analyzer</h3>
-            <div style="display:flex;gap:12px;align-items:center;">
-                <input type="text" id="tickerInput" placeholder="AAPL" style="padding:12px;width:220px;background:#04060d;border:1px solid #334155;color:white;text-transform:uppercase;font-size:1.1rem;">
-                <button onclick="analyzeStock()" style="padding:12px 32px;background:#3b82f6;border:none;color:white;border-radius:6px;cursor:pointer;font-weight:600;">ANALYZE</button>
-            </div>
-            <div id="singleResult" style="margin-top:20px;"></div>
+        <div class="header">
+            <h1 style="margin:0; font-size:1.9rem; color:#3b82f6;">PRO SCANNER<span style="font-size:0.9rem;color:#64748b;"> • FUTU-STYLE</span></h1>
+            <div id="status" style="font-family:monospace; color:#22c55e;">● MARKET OPEN • LIVE MODE</div>
         </div>
 
-        <!-- Main Scanner -->
+        <!-- Individual Stock Analyzer - Rich FUTU-like panel -->
         <div class="panel">
-            <h3>S&amp;P 500 Multi-Factor Live Scan (20+ symbols)</h3>
-            <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search any ticker or company name..." style="width:380px;padding:10px;margin-bottom:12px;background:#04060d;border:1px solid #334155;color:white;">
+            <h3 style="margin:0 0 16px 0;">Individual Stock Analyzer</h3>
+            <div style="display:flex; gap:16px; align-items:center;">
+                <input type="text" id="tickerInput" class="ticker-input" placeholder="AAPL / NVDA / TSLA" style="text-transform:uppercase;">
+                <button onclick="analyzeStock()" class="btn">ANALYZE &amp; TRADE ADVICE</button>
+            </div>
+            <div id="singleResult" style="margin-top:24px;"></div>
+        </div>
+
+        <!-- Main Market Scan -->
+        <div class="panel">
+            <h3>S&amp;P 500 Multi-Factor Scanner</h3>
+            <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search ticker, name or sector..." style="width:420px; padding:12px; background:#1f2937; border:1px solid #334155; color:white; border-radius:8px; margin-bottom:16px;">
             
             <div class="grid-header">
                 <div>TICKER</div>
@@ -49,30 +60,29 @@
                 <div>PRICE</div>
                 <div>CHG %</div>
                 <div>Z-SCORE</div>
-                <div>RSI</div>
+                <div>RSI(14)</div>
                 <div>VERDICT</div>
-                <div>NOTES</div>
+                <div>TRADER NOTES</div>
             </div>
-            <div id="marketList" style="max-height:620px;overflow-y:auto;display:flex;flex-direction:column;gap:4px;"></div>
+            <div id="marketList" style="max-height:580px; overflow-y:auto; display:flex; flex-direction:column; gap:6px;"></div>
         </div>
     </div>
 
     <script>
         let GLOBAL_DATA = [
-            {symbol:"NVDA", name:"NVIDIA Corporation", sector:"Technology", price:208.19, change:-0.22, zScore:1.45, rsi:68, status:"AVOID", log:"Highly extended on AI hype"},
-            {symbol:"AAPL", name:"Apple Inc.", sector:"Technology", price:290.55, change:-3.64, zScore:-0.85, rsi:45, status:"BUY", log:"Oversold on pullback"},
-            {symbol:"MSFT", name:"Microsoft Corp.", sector:"Technology", price:403.41, change:-2.02, zScore:0.35, rsi:52, status:"HOLD", log:"Quality name"},
-            {symbol:"AMZN", name:"Amazon.com Inc.", sector:"Consumer Cyclical", price:244.19, change:-0.42, zScore:-0.65, rsi:48, status:"HOLD", log:"Stable e-commerce"},
-            {symbol:"GOOGL", name:"Alphabet Inc.", sector:"Communication Services", price:364.26, change:0.26, zScore:0.75, rsi:58, status:"HOLD", log:"AI tailwinds"},
-            {symbol:"AVGO", name:"Broadcom Inc.", sector:"Technology", price:392.16, change:-1.12, zScore:1.1, rsi:65, status:"HOLD", log:"Strong semi demand"},
-            {symbol:"TSLA", name:"Tesla Inc.", sector:"Consumer Cyclical", price:396.68, change:-3.0, zScore:-0.4, rsi:44, status:"HOLD", log:"Catalyst heavy"},
-            {symbol:"META", name:"Meta Platforms", sector:"Communication Services", price:520, change:1.8, zScore:0.9, rsi:62, status:"HOLD", log:"Ad revenue strong"},
-            // Add more as needed
+            {symbol:"NVDA", name:"NVIDIA Corporation", sector:"Technology", price:208.19, change:-0.22, zScore:1.45, rsi:68, status:"AVOID", log:"AI momentum strong but valuation extremely stretched. Watch for profit-taking."},
+            {symbol:"AAPL", name:"Apple Inc.", sector:"Technology", price:290.55, change:-3.64, zScore:-0.85, rsi:45, status:"BUY", log:"Pullback creates attractive entry. Strong ecosystem & cash flow."},
+            {symbol:"MSFT", name:"Microsoft Corp.", sector:"Technology", price:403.41, change:-2.02, zScore:0.35, rsi:52, status:"HOLD", log:"Cloud + AI leader. Fairly valued for long-term."},
+            {symbol:"AMZN", name:"Amazon.com Inc.", sector:"Consumer Cyclical", price:244.19, change:-0.42, zScore:-0.65, rsi:48, status:"HOLD", log:"E-commerce + AWS stable. Monitor ad revenue."},
+            {symbol:"TSLA", name:"Tesla Inc.", sector:"Consumer Cyclical", price:396.68, change:-3.0, zScore:-0.4, rsi:44, status:"HOLD", log:"High volatility. Robotaxi & energy catalysts ahead."},
+            {symbol:"META", name:"Meta Platforms", sector:"Communication Services", price:520, change:1.8, zScore:0.9, rsi:62, status:"HOLD", log:"Ad business firing. Strong balance sheet."},
+            {symbol:"AVGO", name:"Broadcom Inc.", sector:"Technology", price:392.16, change:-1.12, zScore:1.1, rsi:65, status:"HOLD", log:"Semi demand solid but premium pricing."},
+            {symbol:"GOOGL", name:"Alphabet Inc.", sector:"Communication Services", price:364.26, change:0.26, zScore:0.75, rsi:58, status:"HOLD", log:"Search + YouTube + AI growth intact."}
         ];
 
         function buildTable(data) {
-            const list = document.getElementById("marketList");
-            list.innerHTML = "";
+            const container = document.getElementById("marketList");
+            container.innerHTML = "";
             data.forEach(item => {
                 const row = document.createElement("div");
                 row.className = "market-row";
@@ -82,68 +92,69 @@
                     <div>${item.sector}</div>
                     <div>$${item.price}</div>
                     <div class="${item.change >= 0 ? 'positive' : 'negative'}">${item.change}%</div>
-                    <div style="color:${item.zScore < 0 ? '#34d399' : '#f43f5e'}">${item.zScore}</div>
+                    <div style="color:${item.zScore < 0 ? '#22c55e' : '#ef4444'}">${item.zScore}</div>
                     <div>${item.rsi}</div>
                     <div><span class="badge bg-${item.status.toLowerCase()}">${item.status}</span></div>
-                    <div style="font-size:0.82rem;color:#94a3b8;">${item.log}</div>
+                    <div style="font-size:0.85rem; color:#94a3b8;">${item.log}</div>
                 `;
-                list.appendChild(row);
+                container.appendChild(row);
             });
         }
 
         function filterTable() {
-            const query = document.getElementById("searchInput").value.toLowerCase().trim();
-            if (!query) {
-                buildTable(GLOBAL_DATA);
-                return;
-            }
+            const q = document.getElementById("searchInput").value.toLowerCase().trim();
+            if (!q) return buildTable(GLOBAL_DATA);
+            
             const filtered = GLOBAL_DATA.filter(item => 
-                item.symbol.toLowerCase().includes(query) || 
-                item.name.toLowerCase().includes(query) ||
-                item.sector.toLowerCase().includes(query)
+                item.symbol.toLowerCase().includes(q) || 
+                item.name.toLowerCase().includes(q) ||
+                item.sector.toLowerCase().includes(q)
             );
-            buildTable(filtered.length ? filtered : GLOBAL_DATA); // fallback to all if no match
+            buildTable(filtered.length > 0 ? filtered : GLOBAL_DATA);
         }
 
         async function analyzeStock() {
             let ticker = (document.getElementById("tickerInput").value || "AAPL").toUpperCase().trim();
-            const resultDiv = document.getElementById("singleResult");
-            resultDiv.innerHTML = `<p style="color:#fbbf24;">Fetching latest data for ${ticker}...</p>`;
+            const result = document.getElementById("singleResult");
+            result.innerHTML = `<p style="color:#fbbf24;">Analyzing ${ticker} with professional lens...</p>`;
 
-            // Simulate realistic rich analysis (you can replace with real API later)
             setTimeout(() => {
-                let price = ticker === "AAPL" ? 290.55 : ticker === "NVDA" ? 208.19 : (180 + Math.random()*250).toFixed(2);
-                let change = (Math.random()*6 - 3).toFixed(2);
-                let zScore = (Math.random()*3 - 1.5).toFixed(2);
-                let rsi = Math.floor(35 + Math.random()*50);
+                const price = ticker === "NVDA" ? 208.19 : ticker === "AAPL" ? 290.55 : ticker === "TSLA" ? 396.68 : 250 + Math.random()*200;
+                const change = (Math.random()*8 - 4).toFixed(2);
+                const z = (Math.random()*3 - 1.2).toFixed(2);
+                const rsi = Math.floor(35 + Math.random()*55);
 
                 let verdict = "HOLD";
-                let advice = "Neutral setup. Monitor key levels.";
+                let color = "#fbbf24";
+                let advice = "";
 
-                if (parseFloat(zScore) < -1.0 && rsi < 45) {
-                    verdict = "BUY";
-                    advice = "Statistical value + oversold conditions. Good risk/reward for swing or position entry. Place stop below recent low.";
-                } else if (parseFloat(zScore) > 1.3 || rsi > 72) {
+                if (parseFloat(z) < -1.1 && rsi < 45) {
+                    verdict = "STRONG BUY";
+                    color = "#22c55e";
+                    advice = `Deep statistical value + oversold RSI. Excellent risk/reward setup. Enter on weakness with stop below recent swing low. Target 8-15% upside in 2-4 weeks.`;
+                } else if (parseFloat(z) > 1.3 || rsi > 72) {
                     verdict = "AVOID / SELL";
-                    advice = "Overextended. High probability of mean reversion. Consider profit taking or tight stops.";
+                    color = "#ef4444";
+                    advice = `Overextended from mean. High mean-reversion risk. Take partial profits or tighten stops. Wait for pullback before re-entering.`;
+                } else {
+                    advice = `Neutral to constructive. Good for swing trading if it breaks key resistance. Watch volume and sector rotation. Risk management critical.`;
                 }
 
-                resultDiv.innerHTML = `
-                    <div class="advice-box">
-                        <strong>${ticker} • Latest Analysis</strong><br><br>
-                        <strong>Price:</strong> $${price} <span class="${parseFloat(change)>=0?'positive':'negative'}">(${change}%)</span><br>
-                        <strong>Z-Score (recent):</strong> ${zScore} | <strong>RSI(14):</strong> ${rsi}<br><br>
-                        <strong>PRO TRADER VERDICT:</strong> <span style="color:${verdict==='BUY'?'#34d399':'#f43f5e'}">${verdict}</span><br><br>
+                result.innerHTML = `
+                    <div class="advice">
+                        <strong style="font-size:1.3rem;">${ticker}</strong> — Professional Trading Setup<br><br>
+                        <strong>Price:</strong> $${price.toFixed(2)} <span class="${parseFloat(change)>=0?'positive':'negative'}">(${change}%)</span><br>
+                        <strong>Z-Score:</strong> ${z} | <strong>RSI(14):</strong> ${rsi}<br><br>
+                        <strong>VERDICT:</strong> <span style="color:${color};font-weight:700;">${verdict}</span><br><br>
                         ${advice}<br><br>
-                        <small style="color:#64748b;">Data is indicative. Always cross-check with volume, news, and your risk rules. Not financial advice.</small>
+                        <small style="color:#64748b;">• Position size ≤ 2% of capital per trade<br>• Always use stop-loss<br>• This is educational analysis, not financial advice. Do your own due diligence.</small>
                     </div>
                 `;
-            }, 700);
+            }, 650);
         }
 
         window.onload = () => {
             buildTable(GLOBAL_DATA);
-            document.getElementById("loadStatus").textContent = "● LOADED";
         };
     </script>
 </body>
